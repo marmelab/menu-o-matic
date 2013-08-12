@@ -29,8 +29,8 @@ docReady(function() {
   var container = document.querySelector('.packery');
   
   var pckry = new Packery( container, {
-    columnWidth: 80,
-    rowHeight: 80,
+    gutter: 5,
+    rowHeight: 40,
     // disable initial layout
     isInitLayout: false
   });
@@ -78,5 +78,6 @@ docReady(function() {
 
   pckry.on( 'layoutComplete', storeSortOrder );
   pckry.on( 'dragItemPositioned', storeSortOrder );
+  pckry.on( 'dragItemPositioned', function() { pckry.layout(); } );
 
 });
