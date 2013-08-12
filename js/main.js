@@ -26,9 +26,7 @@ Packery.prototype.sortItems = function( keys, getSortKey ) {
 
 docReady(function() {
 
-  var container = document.querySelector('.packery');
-  
-  var pckry = new Packery( container, {
+  var pckry = new Packery(document.querySelector('.packery'), {
     gutter: 5,
     rowHeight: 40,
     // disable initial layout
@@ -41,14 +39,48 @@ docReady(function() {
   pckry.layout();
   
   // make items draggable
-  var itemElems = pckry.getItemElements();
-  for ( var i=0, len = itemElems.length; i < len; i++ ) {
-    var elem = itemElems[i];
-    // make element draggable with Draggabilly
-    var draggie = new Draggabilly( elem );
-    // bind Draggabilly events to Packery
-    pckry.bindDraggabillyEvents( draggie );
-  }
+  pckry.getItemElements().forEach(function(elem) {
+    pckry.bindDraggabillyEvents(new Draggabilly(elem));
+  });
+
+  // make items selectable
+  $('.item').on('mouseup', function(e) {
+    var $el = $(this);
+    $('#item_id').val($el.attr('tabindex'));
+    $('#item_title').val($el.text());
+    $('#item_url').val($el.data('url'));
+    $('form').show();
+  });
+
+  // delete item when delete button is pressed
+  $('#delete').on('click', function(e) {
+    var target = $('.item[tabindex="' + $('#item_id').val() + '"]');
+    pckry.remove(target.get());
+    pckry.layout();
+    $('form').trigger('blur');
+  });
+
+  // update item based on form change
+  $('#item_title').on('change', function(e) {
+    $('.item[tabindex="' + $('#item_id').val() + '"]').text($(this).val());
+    pckry.layout();
+  });
+  $('#item_url').on('change', function(e) {
+    $('.item[tabindex="' + $('#item_id').val() + '"]').data('url', $(this).val());
+  });
+
+  // hide form on blur
+  var onFormBlur;
+  $('form input').blur(function() {
+    onFormBlur = setTimeout(function() {
+    $('form').trigger('blur');
+   }, 1000);
+  }).focus(function() {
+   clearTimeout(onFormBlur);
+  });
+  $('form').on('blur', function(e) {
+    $(this).hide();
+  }).hide();
 
   function applySortOrder(sortOrder) {
     pckry.sortItems(sortOrder, function(item) {
@@ -76,8 +108,8 @@ docReady(function() {
     }
   }
 
-  pckry.on( 'layoutComplete', storeSortOrder );
-  pckry.on( 'dragItemPositioned', storeSortOrder );
-  pckry.on( 'dragItemPositioned', function() { pckry.layout(); } );
-
+  pckry.on('layoutComplete', storeSortOrder);
+  pckry.on('dragItemPositioned', function() { 
+    pckry.layout(); 
+  });
 });

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>Order Storage test</title>
+	<title>Gestion du menu principal</title>
 	<meta charset='utf-8'> 
 	<link rel="stylesheet" type="text/css" href="css/bootstrap.css">
 	<link rel="stylesheet" type="text/css" href="css/main.css">
@@ -9,23 +9,42 @@
 <body>
 <script src="http://draggabilly.desandro.com/draggabilly.pkgd.js"></script>
 <div class="container">
-  <h1>order storage test</h1>
+  <h1>Gestion du menu principal</h1>
   <div class="row">
     <div class="col-lg-9 packery">
-      <div class="item" tabindex="0">Actus</div>
-      <div class="item" tabindex="1">Canapés</div>
-      <div class="item" tabindex="2">Meubles</div>
-      <div class="item" tabindex="3">Arts de la table</div>
-      <div class="item" tabindex="4">Textile</div>
-      <div class="item" tabindex="5">Luminaires</div>
-      <div class="item" tabindex="6">Déco</div>
-      <div class="item" tabindex="7">Tous nos styles</div>
-      <div class="item" tabindex="8">Catalogue Junior</div>
-      <div class="item" tabindex="9">Catalogue Outdoor</div>
+      <div class="item" tabindex="0" data-url="/actus">Actus</div>
+      <div class="item" tabindex="1" data-url="/category?name=canape">Canapés</div>
+      <div class="item" tabindex="2" data-url="/category?id=12">Meubles</div>
+      <div class="item" tabindex="3" data-url="/tag/arts-de-la-table">Arts de la table</div>
+      <div class="item" tabindex="4" data-url="/category?id=45">Textile</div>
+      <div class="item" tabindex="5" data-url="/category?id=98">Luminaires</div>
+      <div class="item" tabindex="6" data-url="/tag+deco">Déco</div>
+      <div class="item" tabindex="7" data-url="/styles">Tous nos styles</div>
+      <div class="item" tabindex="8" data-url="/cataloguse/junior">Catalogue Junior</div>
+      <div class="item" tabindex="9" data-url="/catalogues/outdoor">Catalogue Outdoor</div>
   	</div>
-    <div class="col-lg-3"></div>
+    <div class="col-lg-3">
+      <form>
+        <fieldset>
+          <input type="hidden" id="item_id" />
+          <legend>Propriétés</legend>
+          <div class="form-group">
+            <label>Titre</label>
+            <input type="text" class="form-control" id="item_title" />
+          </div>
+          <div class="form-group">
+            <label>Url</label>
+            <input type="url" class="form-control" id="item_url" />
+          </div>
+          <div class="pull-right">
+            <button type="button" class="btn btn-warning btn-sm" id="delete">Supprimer</button>
+          </div>
+        </fieldset>
+      </form>
+    </div>
   </div>
 </div>
+<script type="text/javascript" src="js/jquery.js"></script>
 <script type="text/javascript" src="js/bootstrap.js"></script>
 <script type="text/javascript" src="js/packery.pkgd.js"></script>
 <script type="text/javascript" src="js/draggabilly.pkgd.js"></script>
