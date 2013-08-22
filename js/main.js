@@ -26,7 +26,8 @@ $(function(){
   var MenuView = Backbone.View.extend({
     tagName:  "li",
     events: {
-      "click"     : "select"
+      "click":       "select",
+      "updateOrder": "updateOrder"
     },
     initialize: function() {
       this.listenTo(this.model, 'change', this.render);
@@ -50,7 +51,11 @@ $(function(){
       menuFormView = new MenuFormView({ model: this.model });
       $(".menuform")
         .html(menuFormView.render().el)
-        .show();
+        .show()
+        .find('input[name="title"]').focus();
+    },
+    updateOrder: function() {
+      this.model.save({ order: this.el.tabIndex });
     }
   });
 
@@ -79,6 +84,7 @@ $(function(){
       this.model.set('url', this.$('input[name="url"]').val());
     },
     removeMenu: function() {
+      if (!confirm('Vous êtes sur le point de supprimer le menu "' + this.model.get('title') + '".')) return;
       this.model.destroy();
     },
     enterInput: function() {
@@ -101,101 +107,76 @@ $(function(){
       'click #add': 'createMenu'
     },
     initialize: function() {
+      this._views = [];
+      // fetch menus from storage and reorder
+      this.collection.fetch();
+      this.collection.sortBy('order');
+      // render
+      this.addAll();
+      // bind collection events
       this.listenTo(this.collection, 'add', this.addOne);
+      this.listenTo(this.collection, 'remove', this.removeOne);
+      this.listenTo(this.collection, 'change', this.updateLayout);
       this.listenTo(this.collection, 'reset', this.addAll);
       this.listenTo(this.collection, 'all', this.render);
-      // fetch menus from storage
-      this.collection.fetch();
+      // initialize Packery
+      pckry = new Packery(this.$('.menus').get(0), {
+        gutter: 5,
+        rowHeight: 40,
+        // disable initial layout
+        isInitLayout: false
+      });
+      // make items draggable
+      pckry.getItemElements().forEach(function(elem) {
+        pckry.bindDraggabillyEvents(new Draggabilly(elem));
+      });
+      pckry.layout();
+      pckry.on('layoutComplete', this.orderItems.bind(this));
+      pckry.on('dragItemPositioned', function() { 
+        pckry.layout(); 
+      });
+      this.pckry = pckry;
     },
     addOne: function(menu) {
       var view = new MenuView({ model: menu });
-      this.$('ul').append(view.render().el);
+      this._views.push(view);
+      var elem = view.render().el;
+      this.$('ul').append(elem);
+      if (this.pckry) { // only after initialization
+        this.pckry.addItems(elem);
+        this.pckry.bindDraggabillyEvents(new Draggabilly(elem));
+      }
+    },
+    removeOne: function(menu) {
+      var viewToRemove = _(this._views).select(function(view) { return view.model === menu; })[0];
+      this._views = _(this._views).without(viewToRemove);
+      this.pckry.remove(viewToRemove.el);
+      this.updateLayout();
+    },
+    updateLayout: function() {
+      this.pckry.layout();
     },
     addAll: function() {
+      this.views = [];
       this.collection.each(this.addOne, this);
     },
+    orderItems: function() {
+      // items are in order within the layout
+      var itemElems = this.pckry.getItemElements();
+      // for this demo, let's set text based on their order
+      for ( var i=0, len = itemElems.length; i < len; i++ ) {
+        var elem = itemElems[i];
+        elem.tabIndex = i;
+        $(elem).trigger('updateOrder'); // caught by menu views
+      }
+    },
     createMenu: function() {
-      this.collection.create({title: "Nouveau menu"});
+      var model = this.collection.create({ title: "Nouveau menu" });
+      var viewToSelect = _(this._views).select(function(view) { return view.model === model; })[0];
+      viewToSelect.$el.trigger('click');
     }
   });
 
   var App = new MenuBarView({ collection: Menus });
 
-});
-
-/**
- * sort items with an arbitrary order
- * @param {Array} keys - ordered keys
- * @param {Function} getSortKey - called on each item to retrieve its key
- */
-Packery.prototype.sortItems = function( keys, getSortKey ) {
-  // copy items
-  var itemsBySortKey = {};
-  var key, item;
-  for ( var i=0, len = this.items.length; i < len; i++ ) {
-    item = this.items[i];
-    key = getSortKey( item );
-    itemsBySortKey[ key ] = item;
-  }
-
-  i=0;
-  len = keys.length;
-  var sortedItems = [];
-  for ( ; i < len; i++ ) {
-    key = keys[i];
-    item = itemsBySortKey[ key ];
-    this.items[i] = item;
-  }
-};
-
-
-docReady(function() {
-
-  var pckry = new Packery(document.querySelector('.packery'), {
-    gutter: 5,
-    rowHeight: 40,
-    // disable initial layout
-    isInitLayout: false
-  });
-  
-  restoreSortOrder();
-
-  // trigger initial layout
-  pckry.layout();
-  
-  // make items draggable
-  pckry.getItemElements().forEach(function(elem) {
-    pckry.bindDraggabillyEvents(new Draggabilly(elem));
-  });
-  
-  function applySortOrder(sortOrder) {
-    pckry.sortItems(sortOrder, function(item) {
-      return item.element.getAttribute('tabindex');
-    });
-  }
-
-  function getSortOrder() {
-    var itemElems = pckry.getItemElements();
-    var sortOrder = [];
-    for (var i=0; i< itemElems.length; i++) {
-      sortOrder[i] = itemElems[i].getAttribute("tabindex");
-    }
-    return sortOrder;
-  }
-
-  function storeSortOrder() {
-    localStorage.setItem('sortOrder', JSON.stringify(getSortOrder()));
-  }
-
-  function restoreSortOrder() {
-    var storedSortOrder = localStorage.getItem('sortOrder');
-    if (storedSortOrder) {
-      applySortOrder(JSON.parse(storedSortOrder));
-    }
-  }
-
-  pckry.on('layoutComplete', storeSortOrder);
-  pckry.on('dragItemPositioned', function() { 
-    pckry.layout(); 
-  });
 });
