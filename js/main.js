@@ -48,6 +48,8 @@ $(function(){
       if (menuFormView) {
         menuFormView.remove();
       }
+      this.$el.parent().children('.item').removeClass('selected');
+      this.$el.addClass('selected');
       menuFormView = new MenuFormView({ model: this.model });
       $(".menuform")
         .html(menuFormView.render().el)
@@ -97,6 +99,7 @@ $(function(){
       var self = this;
       this.onFormBlur = setTimeout(function() {
         self.remove();
+        $('.item').removeClass('selected');
       }, 500);
     }
   });
@@ -107,7 +110,6 @@ $(function(){
       'click #add': 'createMenu'
     },
     initialize: function() {
-      this._views = [];
       // fetch menus from storage and reorder
       this.collection.fetch();
       this.collection.sortBy('order');
@@ -118,34 +120,30 @@ $(function(){
       this.listenTo(this.collection, 'remove', this.removeOne);
       this.listenTo(this.collection, 'change', this.updateLayout);
       this.listenTo(this.collection, 'reset', this.addAll);
-      this.listenTo(this.collection, 'all', this.render);
       // initialize Packery
       pckry = new Packery(this.$('.menus').get(0), {
         gutter: 5,
         rowHeight: 40,
-        // disable initial layout
-        isInitLayout: false
+        "itemSelector": ".item",
+        "stamp": ".stamp"
       });
       // make items draggable
       pckry.getItemElements().forEach(function(elem) {
         pckry.bindDraggabillyEvents(new Draggabilly(elem));
       });
-      pckry.layout();
       pckry.on('layoutComplete', this.orderItems.bind(this));
-      pckry.on('dragItemPositioned', function() { 
-        pckry.layout(); 
-      });
+      pckry.on('dragItemPositioned', this.updateLayout.bind(this));
       this.pckry = pckry;
     },
     addOne: function(menu) {
       var view = new MenuView({ model: menu });
       this._views.push(view);
       var elem = view.render().el;
+      $(elem).addClass('selected');
       this.$('ul').append(elem);
-      if (this.pckry) { // only after initialization
-        this.pckry.addItems(elem);
-        this.pckry.bindDraggabillyEvents(new Draggabilly(elem));
-      }
+      this.pckry.prepended(elem);
+      this.updateLayout();
+      this.pckry.bindDraggabillyEvents(new Draggabilly(elem));
     },
     removeOne: function(menu) {
       var viewToRemove = _(this._views).select(function(view) { return view.model === menu; })[0];
@@ -157,16 +155,20 @@ $(function(){
       this.pckry.layout();
     },
     addAll: function() {
-      this.views = [];
-      this.collection.each(this.addOne, this);
+      this._views = [];
+      var self = this;
+      this.collection.each(function(menu) {
+        var view = new MenuView({ model: menu });
+        self._views.push(view);
+        self.$('ul').append(view.render().el);
+      });
     },
     orderItems: function() {
       // items are in order within the layout
       var itemElems = this.pckry.getItemElements();
-      // for this demo, let's set text based on their order
-      for ( var i=0, len = itemElems.length; i < len; i++ ) {
+      for (var i = 0, len = itemElems.length; i < len; i++) {
         var elem = itemElems[i];
-        elem.tabIndex = i;
+        elem.tabIndex = i + 1;
         $(elem).trigger('updateOrder'); // caught by menu views
       }
     },

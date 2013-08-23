@@ -37,6 +37,17 @@ body { font-family: sans-serif; }
   list-style-type: none;
 }
 
+.item.selected {
+  border: 2px solid #fff;
+}
+
+.stamp {
+  height: 30px;
+  float: left;
+  font-size: 14px;
+  list-style-type: none;
+}
+
 .item:hover {
   border-color: white;
   cursor: move;
