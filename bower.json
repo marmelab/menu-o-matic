@@ -1,0 +1,29 @@
+{
+  "name": "menu-o-matic",
+  "version": "0.0.1",
+  "homepage": "https://github.com/marmelab/menu-o-matic",
+  "authors": [
+    "Francois Zaninotto <fzaninotto@gmail.com>"
+  ],
+  "description": "WYSIWYG Menu Editor",
+  "main": "index.html",
+  "license": "MIT",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "requirejs": "2.1.*",
+    "underscore-amd": "1.5.*",
+    "jquery": "2.0.*",
+    "backbone-amd": "1.0.*",
+    "backbone.localStorage": "1.1.*",
+    "bootstrap": "3.0.*",
+    "draggabilly": "git://github.com/desandro/draggabilly.git#~1.0.5",
+    "packery": "git://github.com/metafizzy/packery.git#~1.1.0"
+  }
+}
