@@ -73,3 +73,31 @@ body { font-family: sans-serif; }
   padding: 3px;
   list-style-type: none;
 }
+
+.block {
+  width: 200px;
+  float: left;
+  background: #DBC0D4;
+  border: 2px solid #333;
+  border-color: hsla(0, 0%, 0%, 0.3);
+  font-size: 14px;
+  color: black;
+  padding: 3px;
+  list-style-type: none;
+}
+
+.block.selected {
+  border: 2px solid #fff;
+}
+
+.block:hover {
+  border-color: white;
+  cursor: move;
+}
+
+.block.is-dragging,
+.block.is-positioning-post-drag {
+  border-color: white;
+  background: #09F;
+  z-index: 2;
+}
