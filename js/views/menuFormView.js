@@ -4,9 +4,10 @@ define(function(require) {
   var $        = require('jquery');
   var _        = require('underscore');
   var Backbone = require('backbone');
+  var menuFormTemplate = require('text!templates/menuFormTemplate.html');
 
   var MenuFormView = Backbone.View.extend({
-    template: _.template($('#form-template').html()),
+    template: _.template(menuFormTemplate),
     events: {
       'change input[name="title"]': 'updateTitle',
       'keyup input[name="title"]': 'updateTitle',

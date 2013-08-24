@@ -8,6 +8,7 @@ require.config({
   paths: {
     jquery:       '../bower_components/jquery/jquery',
     underscore:   '../bower_components/underscore-amd/underscore',
+    text:         '../bower_components/requirejs-text/text',
     backbone:     '../bower_components/backbone-amd/backbone',
     backboneLocalStorage: '../bower_components/backbone.localStorage/backbone.localStorage',
     packery:      '../bower_components/packery',
