@@ -51,7 +51,7 @@ define(function(require) {
       this.pckry.bindDraggabillyEvents(new Draggabilly(elem));
     },
     removeOne: function(menu) {
-      var viewToRemove = _(this._views).select(function(view) { return view.model === menu; })[0];
+      var viewToRemove = _(this._views).find(function(view) { return view.model === menu; });
       this._views = _(this._views).without(viewToRemove);
       this.pckry.remove(viewToRemove.el);
       this.updateLayout();
