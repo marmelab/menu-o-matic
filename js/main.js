@@ -27,9 +27,6 @@ require.config({
 
 define(function(require) {
   'use strict';
-  var $              = require('jquery');
-  var _              = require('underscore');
-  var Backbone       = require('backbone');
   var MenuCollection = require('collections/menuCollection');
   var MenuBarView    = require('views/menuBarView');
   var App = new MenuBarView({ collection: new MenuCollection() });
