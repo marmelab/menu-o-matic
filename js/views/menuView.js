@@ -7,7 +7,7 @@ define(function(require) {
   var MenuFormView = require('views/menuFormView');
 
   var menuFormView;
-  
+
   var MenuView = Backbone.View.extend({
     tagName:  "li",
     className: "item",
@@ -30,6 +30,7 @@ define(function(require) {
     },
     renderTitle: function() {
       this.$el.text(this.model.get('title'));
+      return this;
     },
     renderUrl: function() {
       this.$el.attr({
