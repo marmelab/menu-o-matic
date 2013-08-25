@@ -10,6 +10,7 @@ define(function(require) {
   
   var MenuView = Backbone.View.extend({
     tagName:  "li",
+    className: "item",
     events: {
       "click":       "select",
       "updateOrder": "updateOrder"
