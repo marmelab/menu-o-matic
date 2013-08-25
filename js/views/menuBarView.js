@@ -46,7 +46,7 @@ define(function(require) {
           $elem = view.$el;
       $elem.addClass('selected');
       this.$('ul').append(elem);
-      this.pckry.prepended(elem);
+      this.pckry.appended(elem);
       this.updateLayout();
       this.pckry.bindDraggabillyEvents(new Draggabilly(elem));
     },
