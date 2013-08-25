@@ -15,6 +15,8 @@ Since the application uses RequireJS to manage dependencies, JavaScript files ar
 
 ```sh
 $ python -m SimpleHTTPServer 4000
+# or using node's serve module
+$ serve -p 4000
 ```
 
 Then, browse to [http://localhost:4000](http://localhost:4000) and start building your menu.

@@ -9,7 +9,7 @@ define(function(require) {
   var MenuView    = require('views/menuView');
 
   var MenuBarView = Backbone.View.extend({
-    el: $(".menubar"),
+    el: ".menubar",
     events: {
       'click #add': 'createMenu'
     },
@@ -42,15 +42,16 @@ define(function(require) {
     addOne: function(menu) {
       var view = new MenuView({ model: menu });
       this._views.push(view);
-      var elem = view.render().el;
-      $(elem).addClass('selected');
+      var elem = view.render().el,
+          $elem = view.$el;
+      $elem.addClass('selected');
       this.$('ul').append(elem);
-      this.pckry.prepended(elem);
+      this.pckry.appended(elem);
       this.updateLayout();
       this.pckry.bindDraggabillyEvents(new Draggabilly(elem));
     },
     removeOne: function(menu) {
-      var viewToRemove = _(this._views).select(function(view) { return view.model === menu; })[0];
+      var viewToRemove = _(this._views).find(function(view) { return view.model === menu; });
       this._views = _(this._views).without(viewToRemove);
       this.pckry.remove(viewToRemove.el);
       this.updateLayout();
@@ -77,9 +78,9 @@ define(function(require) {
       }
     },
     createMenu: function() {
-      var model = this.collection.create({ title: "Nouveau menu" });
-      var viewToSelect = _(this._views).select(function(view) { return view.model === model; })[0];
-      viewToSelect.$el.trigger('click');
+      var model = this.collection.create();
+      var viewToSelect = _(this._views).find(function(view) { return view.model === model; });
+      viewToSelect.select();
     }
   });
 
