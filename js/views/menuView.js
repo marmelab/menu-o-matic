@@ -49,7 +49,7 @@ define(function(require) {
       if (menuFormView) {
         menuFormView.remove();
       }
-      this.$el.parent().children('.item').removeClass('selected');
+      this.$el.siblings('.item').removeClass('selected');
       this.$el.addClass('selected');
       menuFormView = new MenuFormView({ model: this.model });
       $(".menuform")
