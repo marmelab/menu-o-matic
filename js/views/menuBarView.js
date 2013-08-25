@@ -9,7 +9,7 @@ define(function(require) {
   var MenuView    = require('views/menuView');
 
   var MenuBarView = Backbone.View.extend({
-    el: $(".menubar"),
+    el: ".menubar",
     events: {
       'click #add': 'createMenu'
     },
