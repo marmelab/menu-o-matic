@@ -78,7 +78,7 @@ define(function(require) {
       }
     },
     createMenu: function() {
-      var model = this.collection.create({ title: "Nouveau menu" });
+      var model = this.collection.create();
       var viewToSelect = _(this._views).find(function(view) { return view.model === model; });
       viewToSelect.select();
     }
