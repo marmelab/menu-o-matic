@@ -79,7 +79,7 @@ define(function(require) {
     },
     createMenu: function() {
       var model = this.collection.create({ title: "Nouveau menu" });
-      var viewToSelect = _(this._views).select(function(view) { return view.model === model; })[0];
+      var viewToSelect = _(this._views).find(function(view) { return view.model === model; });
       viewToSelect.$el.trigger('click');
     }
   });
