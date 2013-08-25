@@ -42,11 +42,10 @@ define(function(require) {
     addOne: function(menu) {
       var view = new MenuView({ model: menu });
       this._views.push(view);
-      var elem = view.render().el,
-          $elem = view.$el;
-      $elem.addClass('selected');
+      var elem = view.render().el;
+      view.$el.addClass('selected');
       this.$('ul').append(elem);
-      this.pckry.appended(elem);
+      this.pckry.prepended(elem);
       this.updateLayout();
       this.pckry.bindDraggabillyEvents(new Draggabilly(elem));
     },
