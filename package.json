@@ -1,0 +1,19 @@
+{
+    "name": "menu-o-matic",
+    "description": "WYSIWYG Menu Editor",
+    "version": "0.0.1",
+    "authors": [
+        "Francois Zaninotto <fzaninotto@gmail.com>"
+    ],
+    "repository": "https://github.com/marmelab/menu-o-matic",
+    "engines": [
+        "node"
+    ],
+    "devDependencies": {
+        "wd": "0.1.0",
+        "mocha": "1.12.x"
+    },
+    "scripts": {
+        "test": "node_modules/.bin/mocha"
+    }
+}
