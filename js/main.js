@@ -11,6 +11,7 @@ require.config({
     text:         '../bower_components/requirejs-text/text',
     backbone:     '../bower_components/backbone-amd/backbone',
     backboneLocalStorage: '../bower_components/backbone.localStorage/backbone.localStorage',
+    marked:       '../bower_components/marked/lib/marked',
     packery:      '../bower_components/packery',
     draggabilly:  '../bower_components/draggabilly/draggabilly',
     // packery and draggabilly dependencies (see https://github.com/desandro/draggabilly/issues/28 and http://packery.metafizzy.co/appendix.html#requirejs)
@@ -27,7 +28,8 @@ require.config({
 
 define(function(require) {
   'use strict';
-  var MenuCollection = require('collections/menuCollection');
-  var AppView        = require('views/appView');
-  var App = new AppView({ collection: new MenuCollection() });
+  var MenuCollection  = require('collections/menuCollection');
+  var BlockCollection = require('collections/blockCollection');
+  var AppView         = require('views/appView');
+  var App = new AppView({ menus: new MenuCollection(), blocks: new BlockCollection() });
 });

@@ -1,20 +1,20 @@
 define(function(require) {
   "use strict";
 
-  var $            = require('jquery');
-  var Backbone     = require('backbone');
-
-  var MenuView = Backbone.View.extend({
+  var $             = require('jquery');
+  var Backbone      = require('backbone');
+  var marked        = require('marked');
+  
+  var BlockView = Backbone.View.extend({
     tagName:  "li",
-    className: "item",
+    className: "block",
     events: {
       "mousedown":   "select",
       "touchstart":  "select",
       "updateOrder": "updateOrder"
     },
     initialize: function() {
-      this.listenTo(this.model, 'change:url', this.renderUrl);
-      this.listenTo(this.model, 'change:title', this.renderTitle);
+      this.listenTo(this.model, 'change:content', this.renderContent);
       this.listenTo(this.model, 'change:order', this.renderOrder);
       this.listenTo(this.model, 'select', this.renderSelected);
       this.listenTo(this.model, 'unselect', this.renderUnselected);
@@ -22,20 +22,12 @@ define(function(require) {
     },
     render: function() {
       this
-        .renderTitle()
-        .renderUrl()
+        .renderContent()
         .renderOrder();
       return this;
     },
-    renderTitle: function() {
-      this.$el.text(this.model.get('title'));
-      return this;
-    },
-    renderUrl: function() {
-      this.$el.attr({
-        'data-url': this.model.get('url'),
-        'title': this.model.get('url')
-      });
+    renderContent: function() {
+      this.$el.html(marked(this.model.get('content')));
       return this;
     },
     renderOrder: function() {
@@ -56,5 +48,5 @@ define(function(require) {
     }
   });
 
-  return MenuView;
+  return BlockView;
 });

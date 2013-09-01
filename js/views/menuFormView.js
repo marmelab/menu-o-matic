@@ -42,8 +42,8 @@ define(function(require) {
       this.model.save();
       var self = this;
       this.onFormBlur = setTimeout(function() {
+        self.$el.trigger('leave');
         self.remove();
-        $('.menubar').trigger('unselect');
       }, 500);
     }
   });

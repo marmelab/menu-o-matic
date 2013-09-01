@@ -9,7 +9,6 @@ define(function(require) {
     model: Menu,
     localStorage: new Store("menus-backbone"),
     comparator: 'order',
-    selected: null,
     initialize: function() {
       this.listenTo(this, 'select', this.changeSelected);
     },

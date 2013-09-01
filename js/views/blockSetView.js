@@ -6,14 +6,15 @@ define(function(require) {
   var Backbone    = require('backbone');
   var Packery     = require('packery/js/packery');
   var Draggabilly = require('draggabilly');
-  var MenuView    = require('views/menuView');
+  var BlockView    = require('views/blockView');
 
-  var MenuBarView = Backbone.View.extend({
-    el: ".menubar",
+  var BlockSetView = Backbone.View.extend({
+    el: ".blockset",
     events: {
-      'click #add_menu': 'createMenu'
+      'click #add_block': 'createBlock'
     },
-    initialize: function() {
+    initialize: function(options) {
+      this.menu = options.menu;
       // render
       this.addAll();
       // bind collection events
@@ -22,10 +23,10 @@ define(function(require) {
       this.listenTo(this.collection, 'change', this.updateLayout);
       this.listenTo(this.collection, 'reset', this.addAll);
       // initialize Packery
-      var pckry = new Packery(this.$('.menus').get(0), {
+      var pckry = new Packery(this.$('.blocks').get(0), {
         gutter: 5,
-        rowHeight: 40,
-        "itemSelector": ".item",
+        columnWidth: 200,
+        "itemSelector": ".block",
         "stamp": ".stamp"
       });
       // make items draggable
@@ -36,18 +37,18 @@ define(function(require) {
       pckry.on('dragItemPositioned', this.updateLayout.bind(this));
       this.pckry = pckry;
     },
-    addOne: function(menu) {
-      var view = new MenuView({ model: menu });
+    addOne: function(block) {
+      var view = new BlockView({ model: block });
       this._views.push(view);
       var elem = view.render().el;
-      menu.select();
+      block.select();
       this.$('ul').append(elem);
       this.pckry.prepended(elem);
       this.updateLayout();
       this.pckry.bindDraggabillyEvents(new Draggabilly(elem));
     },
-    removeOne: function(menu) {
-      var viewToRemove = this.findViewForModel(menu);
+    removeOne: function(block) {
+      var viewToRemove = this.findViewForModel(block);
       this._views = _(this._views).without(viewToRemove);
       this.pckry.remove(viewToRemove.el);
       this.updateLayout();
@@ -58,8 +59,11 @@ define(function(require) {
     addAll: function() {
       this._views = [];
       var self = this;
-      this.collection.each(function(menu) {
-        var view = new MenuView({ model: menu });
+      var blocks = this.collection.filterForMenu(this.menu);
+      // blocks is a simple array, not a collection
+      blocks = _.sortBy(blocks, function(a, b) { return a.order > b.order; });
+      _.each(blocks, function(block) {
+        var view = new BlockView({ model: block });
         self._views.push(view);
         self.$('ul').append(view.render().el);
       });
@@ -73,15 +77,21 @@ define(function(require) {
         $(elem).trigger('updateOrder'); // caught by menu views
       }
     },
-    createMenu: function() {
-      var model = this.collection.create();
-      var viewToSelect = _(this._views).find(function(view) { return view.model === model; });
+    createBlock: function() {
+      var model = this.collection.create({ menuId: this.menu.id });
+      var viewToSelect = _.find(this._views, function(view) { return view.model === model; });
       viewToSelect.select();
     },
     findViewForModel: function(model) {
       return _(this._views).find(function(view) { return view.model === model; });
+    },
+    remove: function() {
+      // empty instead of removing
+      _.invoke(this._views, 'remove');
+      this.stopListening();
+      return this;
     }
   });
 
-  return MenuBarView;
+  return BlockSetView;
 });
