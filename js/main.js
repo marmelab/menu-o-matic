@@ -28,6 +28,6 @@ require.config({
 define(function(require) {
   'use strict';
   var MenuCollection = require('collections/menuCollection');
-  var MenuBarView    = require('views/menuBarView');
-  var App = new MenuBarView({ collection: new MenuCollection() });
+  var AppView        = require('views/appView');
+  var App = new AppView({ collection: new MenuCollection() });
 });

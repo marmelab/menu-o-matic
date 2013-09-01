@@ -3,15 +3,13 @@ define(function(require) {
 
   var $            = require('jquery');
   var Backbone     = require('backbone');
-  var MenuFormView = require('views/menuFormView');
-
-  var menuFormView;
 
   var MenuView = Backbone.View.extend({
     tagName:  "li",
     className: "item",
     events: {
-      "click":       "select",
+      "mousedown":   "select",
+      "touchstart":  "select",
       "updateOrder": "updateOrder"
     },
     initialize: function() {
@@ -46,16 +44,9 @@ define(function(require) {
       return this;
     },
     select: function() {
-      if (menuFormView) {
-        menuFormView.remove();
-      }
-      this.$el.siblings('.item').removeClass('selected');
+      this.$el.trigger('unselect'); // event bubbling will do the rest
       this.$el.addClass('selected');
-      menuFormView = new MenuFormView({ model: this.model });
-      $(".menuform")
-        .html(menuFormView.render().el)
-        .show()
-        .find('input[name="title"]').focus();
+      this.$el.trigger('selected', [this.model]);
     },
     updateOrder: function() {
       this.model.save({ order: this.el.tabIndex });

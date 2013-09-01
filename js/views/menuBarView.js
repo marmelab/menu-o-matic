@@ -11,7 +11,8 @@ define(function(require) {
   var MenuBarView = Backbone.View.extend({
     el: ".menubar",
     events: {
-      'click #add': 'createMenu'
+      'click #add': 'createMenu',
+      'unselect': 'unselect'
     },
     initialize: function() {
       // fetch menus from storage and reorder
@@ -80,6 +81,9 @@ define(function(require) {
       var model = this.collection.create();
       var viewToSelect = _(this._views).find(function(view) { return view.model === model; });
       viewToSelect.select();
+    },
+    unselect: function() {
+      this.$('.item').removeClass('selected');
     }
   });
 

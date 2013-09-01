@@ -43,7 +43,7 @@ define(function(require) {
       var self = this;
       this.onFormBlur = setTimeout(function() {
         self.remove();
-        $('.item').removeClass('selected');
+        $('.menubar').trigger('unselect');
       }, 500);
     }
   });
