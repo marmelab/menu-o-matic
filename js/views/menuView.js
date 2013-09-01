@@ -16,6 +16,8 @@ define(function(require) {
       this.listenTo(this.model, 'change:url', this.renderUrl);
       this.listenTo(this.model, 'change:title', this.renderTitle);
       this.listenTo(this.model, 'change:order', this.renderOrder);
+      this.listenTo(this.model, 'select', this.renderSelected);
+      this.listenTo(this.model, 'unselect', this.renderUnselected);
       this.listenTo(this.model, 'destroy', this.remove);
     },
     render: function() {
@@ -43,10 +45,14 @@ define(function(require) {
         });
       return this;
     },
-    select: function() {
-      this.$el.trigger('unselect'); // event bubbling will do the rest
+    renderSelected: function() {
       this.$el.addClass('selected');
-      this.$el.trigger('selected', [this.model]);
+    },
+    renderUnselected: function() {
+      this.$el.removeClass('selected');
+    },
+    select: function() {
+      this.model.select();
     },
     updateOrder: function() {
       this.model.save({ order: this.el.tabIndex });

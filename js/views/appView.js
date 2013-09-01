@@ -8,23 +8,24 @@ define(function(require) {
 
   var AppView = Backbone.View.extend({
     el: '.container',
-    events: {
-      'selected .item': 'selectMenu'
-    },
     initialize: function() {
+      // fetch menus from storage and reorder
+      this.collection.fetch();
+      this.collection.sortBy('order');
+      this.listenTo(this.collection, 'select', this.selectMenu);
       new MenuBarView({ collection: this.collection });
       this.formView = null;
     },
-    selectMenu: function(e, model) {
+    selectMenu: function() {
       if (this.formView) {
         this.formView.remove();
       }
-      this.formView = new MenuFormView({ model: model });
+      this.formView = new MenuFormView({ model: this.collection.selectedMenu });
       this.$(".menuform")
         .html(this.formView.render().el)
         .show()
         .find('input[name="title"]').focus();
-    },
+    }
   });
 
   return AppView;

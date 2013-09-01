@@ -8,7 +8,21 @@ define(function(require) {
   var MenuCollection = Backbone.Collection.extend({
     model: Menu,
     localStorage: new Store("menus-backbone"),
-    comparator: 'order'
+    comparator: 'order',
+    selected: null,
+    initialize: function() {
+      this.listenTo(this, 'select', this.changeSelected);
+    },
+    changeSelected: function(model) {
+      this.unselect();
+      this.selectedMenu = model;
+    },
+    unselect: function() {
+      if (this.selectedMenu) {
+        this.selectedMenu.unselect();
+      }
+      this.selectedMenu = null;
+    }
   });
 
   return MenuCollection;

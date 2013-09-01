@@ -8,6 +8,12 @@ define(function(require) {
       title: 'Nouveau menu',
       url: '',
       order: 0
+    },
+    select: function() {
+      this.trigger('select', this);
+    },
+    unselect: function() {
+      this.trigger('unselect', this);
     }
   });
 
