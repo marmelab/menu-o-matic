@@ -13,7 +13,9 @@ define(function(require) {
       this.listenTo(this, 'select', this.changeSelected);
     },
     filterForMenu: function(menu) {
-      return this.filter(function(block) { return block.get('menuId') == menu.id; });
+      return this.filter(function(block) {
+        return block.get('menuId') == menu.id;
+      });
     },
     changeSelected: function(model) {
       this.unselect();

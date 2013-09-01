@@ -13,16 +13,23 @@ define(function(require) {
       'leave .menuform': 'leaveMenuForm'
     },
     initialize: function(options) {
+      // menus
       this.menus = options.menus;
       this.menus.fetch();
       this.menus.sortBy('order');
       this.listenTo(this.menus, 'select', this.selectMenu);
-      this.listenTo(this.menus, 'unselect', this.unselectMenu);
+      this.listenTo(this.menus, 'unselect', this.unselect);
       new MenuBarView({ collection: this.menus });
+      // blocks
       this.blocks = options.blocks;
       this.blocks.fetch();
       this.listenTo(this.blocks, 'select', this.selectBlock);
+      this.listenTo(this.blocks, 'unselect', this.unselect);
+      // edition form
       this.formView = null;
+    },
+    leaveMenuForm: function() {
+      this.menus.selectedMenu.unselect();
     },
     selectMenu: function() {
       this.unselectMenu();
@@ -37,16 +44,13 @@ define(function(require) {
       }
       this.blockSetView = new BlockSetView({ collection: this.blocks, menu: menu }); 
     },
-    unselectMenu: function() {
-      if (this.formView) {
-        this.formView.remove();
-      }
-    },
     selectBlock: function() {
       this.menus.selectedMenu.unselect();
     },
-    leaveMenuForm: function() {
-      this.menus.selectedMenu.unselect();
+    unselect: function() {
+      if (this.formView) {
+        this.formView.remove();
+      }
     }
   });
 
