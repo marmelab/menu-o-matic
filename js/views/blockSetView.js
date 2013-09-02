@@ -26,8 +26,7 @@ define(function(require) {
       var pckry = new Packery(this.$('.blocks').get(0), {
         gutter: 5,
         columnWidth: 200,
-        "itemSelector": ".block",
-        "stamp": ".stamp"
+        "itemSelector": ".block"
       });
       // make items draggable
       pckry.getItemElements().forEach(function(elem) {
@@ -42,7 +41,7 @@ define(function(require) {
       this._views.push(view);
       var elem = view.render().el;
       this.$('ul').append(elem);
-      this.pckry.prepended(elem);
+      this.pckry.appended(elem);
       this.updateLayout();
       this.pckry.bindDraggabillyEvents(new Draggabilly(elem));
       block.select();
