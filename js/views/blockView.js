@@ -4,7 +4,7 @@ define(function(require) {
   var $             = require('jquery');
   var Backbone      = require('backbone');
   var marked        = require('marked');
-  
+
   var BlockView = Backbone.View.extend({
     tagName:  "li",
     className: "block",

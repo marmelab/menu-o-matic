@@ -55,8 +55,8 @@ define(function(require) {
       this.$(".menu-block-connector")
         .css({
           'visibility': 'visible',
-          'margin-left': position.left + 10,
-          width: (position.width + 10) + 'px'
+          'margin-left': position.left,
+          width: (position.width + 30) + 'px'
         });
     },
     removeMenu: function(menu) {
