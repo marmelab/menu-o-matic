@@ -25,7 +25,7 @@ define(function(require) {
       // initialize Packery
       var pckry = new Packery(this.$('.blocks').get(0), {
         gutter: 5,
-        columnWidth: 200,
+        columnWidth: 250,
         "itemSelector": ".block"
       });
       // make items draggable

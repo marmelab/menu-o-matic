@@ -8,7 +8,7 @@ define(function(require) {
 
   var BlockCollection = Backbone.Collection.extend({
     model: Block,
-    localStorage: new Store("Blocks-backbone"),
+    localStorage: new Store("blocks-backbone"),
     comparator: 'order',
     initialize: function() {
       this.listenTo(this, 'select', this.changeSelected);
