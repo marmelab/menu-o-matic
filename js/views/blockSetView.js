@@ -40,7 +40,7 @@ define(function(require) {
       var view = new BlockView({ model: block });
       this._views.push(view);
       var elem = view.render().el;
-      this.$('ul').append(elem);
+      this.$('.blocks').append(elem);
       this.pckry.appended(elem);
       this.updateLayout();
       this.pckry.bindDraggabillyEvents(new Draggabilly(elem));
@@ -64,7 +64,7 @@ define(function(require) {
       _.each(blocks, function(block) {
         var view = new BlockView({ model: block });
         self._views.push(view);
-        self.$('ul').append(view.render().el);
+        self.$('.blocks').append(view.render().el);
       });
     },
     orderItems: function() {
