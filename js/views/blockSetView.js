@@ -60,7 +60,7 @@ define(function(require) {
       var self = this;
       var blocks = this.collection.filterForMenu(this.menu);
       // blocks is a simple array, not a collection
-      blocks = _.sortBy(blocks, 'order');
+      blocks = _.sortBy(blocks, function(block) { return block.get('order'); });
       _.each(blocks, function(block) {
         var view = new BlockView({ model: block });
         self._views.push(view);
