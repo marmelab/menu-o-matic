@@ -8,8 +8,7 @@ body { font-family: sans-serif; }
 
 .menubar {
   padding: 10px 10px 0 10px;
-  background: #FDD;
-  background: hsla(45, 100%, 40%, 0.2);
+  background: #F4EACB;
   border-radius: 5px;
 }
 
@@ -81,9 +80,14 @@ body { font-family: sans-serif; }
   width: 20px;
   height: 10px;
   float: left;
-  background: #FFD;
-  background: hsla(45, 100%, 40%, 0.2);
+  background-image: -webkit-linear-gradient(top, #F4EACB, #DFD);
   visibility: hidden;
+  border-style: solid;
+  border-width: 0px 20px 10px;
+  -moz-border-image: url('/img/borders.png') 0 20 10 repeat;
+  -webkit-border-image: url('/img/borders.png') 0 20 10 repeat;
+  -o-border-image: url('/img/borders.png') 0 20 10 repeat;
+  border-image: url('/img/borders.png') 0 20 10 fill repeat;
 }
 
 .add_button {
