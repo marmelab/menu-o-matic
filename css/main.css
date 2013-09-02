@@ -70,6 +70,13 @@ body { font-family: sans-serif; }
   list-style-type: none;
 }
 
+.block p {
+  margin: 0;
+}
+.block ul {
+  padding-left: 15px;
+}
+
 .stamp {
   height: 30px;
   float: left;
@@ -96,4 +103,8 @@ body { font-family: sans-serif; }
   border-color: white;
   background: #09F;
   z-index: 2;
+}
+
+.properties_form textarea[name="content"] {
+  height: 200px;
 }

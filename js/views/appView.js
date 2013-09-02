@@ -11,7 +11,7 @@ define(function(require) {
   var AppView = Backbone.View.extend({
     el: '.container',
     events: {
-      'leave .menuform': 'leaveMenuForm'
+      'leave .properties_form': 'leaveForm'
     },
     initialize: function(options) {
       // menus
@@ -30,14 +30,14 @@ define(function(require) {
       // edition form
       this.formView = null;
     },
-    leaveMenuForm: function() {
+    leaveForm: function() {
       this.menus.selectedMenu.unselect();
     },
     selectMenu: function() {
       this.unselect();
       var menu = this.menus.selectedMenu;
       this.formView = new MenuFormView({ model: menu });
-      this.$(".menuform")
+      this.$(".properties_form")
         .html(this.formView.render().el)
         .show()
         .find('input[name="title"]').focus();
@@ -53,7 +53,7 @@ define(function(require) {
       this.menus.selectedMenu.unselect();
       var block = this.blocks.selectedBlock;
       this.formView = new BlockFormView({ model: block });
-      this.$(".menuform")
+      this.$(".properties_form")
         .html(this.formView.render().el)
         .show()
         .find('textarea[name="content"]').focus();
