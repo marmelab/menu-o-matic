@@ -9,8 +9,8 @@ define(function(require) {
       url: '',
       order: 0
     },
-    select: function() {
-      this.trigger('select', this);
+    select: function(position) {
+      this.trigger('select', this, position);
     },
     unselect: function() {
       this.trigger('unselect', this);

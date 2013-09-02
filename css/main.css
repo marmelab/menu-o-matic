@@ -77,6 +77,15 @@ body { font-family: sans-serif; }
   padding-left: 15px;
 }
 
+.menu-block-connector {
+  width: 20px;
+  height: 10px;
+  float: left;
+  background: #FFD;
+  background: hsla(45, 100%, 40%, 0.2);
+  visibility: hidden;
+}
+
 .add_button {
   height: 30px;
   float: right;

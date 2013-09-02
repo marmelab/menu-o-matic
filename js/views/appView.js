@@ -33,9 +33,8 @@ define(function(require) {
     leaveForm: function() {
       this.menus.selectedMenu.unselect();
     },
-    selectMenu: function() {
+    selectMenu: function(menu, position) {
       this.unselect();
-      var menu = this.menus.selectedMenu;
       this.formView = new MenuFormView({ model: menu });
       this.$(".properties_form")
         .html(this.formView.render().el)
@@ -45,9 +44,17 @@ define(function(require) {
         this.blockSetView.remove();
       }
       this.blockSetView = new BlockSetView({ collection: this.blocks, menu: menu });
+      this.$(".menu-block-connector")
+        .css({
+          'visibility': 'visible',
+          'margin-left': position.left + 15,
+          width: position.width + 'px'
+        });
     },
     removeMenu: function(menu) {
       this.blocks.removeForMenu(menu);
+      this.$(".menu-block-connector")
+        .css('visibility', 'hidden');
     },
     selectBlock: function() {
       this.menus.selectedMenu.unselect();

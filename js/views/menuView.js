@@ -49,7 +49,11 @@ define(function(require) {
       this.$el.removeClass('selected');
     },
     select: function() {
-      this.model.select();
+      var position = {
+        left: this.$el.position().left,
+        width: this.$el.width()
+      };
+      this.model.select(position);
     },
     updateOrder: function() {
       this.model.save({ order: this.el.tabIndex });

@@ -43,7 +43,7 @@ define(function(require) {
       this.pckry.appended(elem);
       this.updateLayout();
       this.pckry.bindDraggabillyEvents(new Draggabilly(elem));
-      menu.select();
+      setTimeout(function() { view.select(); }, 500);
     },
     removeOne: function(menu) {
       var viewToRemove = this.findViewForModel(menu);
