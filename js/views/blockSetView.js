@@ -41,11 +41,11 @@ define(function(require) {
       var view = new BlockView({ model: block });
       this._views.push(view);
       var elem = view.render().el;
-      block.select();
       this.$('ul').append(elem);
       this.pckry.prepended(elem);
       this.updateLayout();
       this.pckry.bindDraggabillyEvents(new Draggabilly(elem));
+      block.select();
     },
     removeOne: function(block) {
       var viewToRemove = this.findViewForModel(block);
@@ -78,9 +78,7 @@ define(function(require) {
       }
     },
     createBlock: function() {
-      var model = this.collection.create({ menuId: this.menu.id });
-      var viewToSelect = _.find(this._views, function(view) { return view.model === model; });
-      viewToSelect.select();
+      this.collection.create({ menuId: this.menu.id });
     },
     findViewForModel: function(model) {
       return _(this._views).find(function(view) { return view.model === model; });

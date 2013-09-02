@@ -40,11 +40,11 @@ define(function(require) {
       var view = new MenuView({ model: menu });
       this._views.push(view);
       var elem = view.render().el;
-      menu.select();
       this.$('ul').append(elem);
       this.pckry.prepended(elem);
       this.updateLayout();
       this.pckry.bindDraggabillyEvents(new Draggabilly(elem));
+      menu.select();
     },
     removeOne: function(menu) {
       var viewToRemove = this.findViewForModel(menu);
@@ -74,9 +74,7 @@ define(function(require) {
       }
     },
     createMenu: function() {
-      var model = this.collection.create();
-      var viewToSelect = _(this._views).find(function(view) { return view.model === model; });
-      viewToSelect.select();
+      this.collection.create();
     },
     findViewForModel: function(model) {
       return _(this._views).find(function(view) { return view.model === model; });

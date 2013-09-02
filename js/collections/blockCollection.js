@@ -2,6 +2,7 @@ define(function(require) {
   "use strict";
 
   var Backbone = require('backbone');
+  var _        = require('underscore');
   var Store    = require('backboneLocalStorage');
   var Block    = require('models/block');
 
@@ -15,6 +16,11 @@ define(function(require) {
     filterForMenu: function(menu) {
       return this.filter(function(block) {
         return block.get('menuId') == menu.id;
+      });
+    },
+    removeForMenu: function(menu) {
+      _.each(this.filterForMenu(menu), function(block) {
+        block.destroy();
       });
     },
     changeSelected: function(model) {
