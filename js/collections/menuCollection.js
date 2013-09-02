@@ -13,6 +13,7 @@ define(function(require) {
       this.listenTo(this, 'select', this.changeSelected);
     },
     changeSelected: function(model) {
+      if (this.selectedMenu == model) return;
       this.unselect();
       this.selectedMenu = model;
     },

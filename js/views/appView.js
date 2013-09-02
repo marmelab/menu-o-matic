@@ -11,7 +11,8 @@ define(function(require) {
   var AppView = Backbone.View.extend({
     el: '.container',
     events: {
-      'leave .properties_form': 'leaveForm'
+      'leave .properties_form': 'leaveForm',
+      'updatePosition .item': 'placeConnector'
     },
     initialize: function(options) {
       // menus
@@ -33,7 +34,7 @@ define(function(require) {
     leaveForm: function() {
       this.menus.selectedMenu.unselect();
     },
-    selectMenu: function(menu, position) {
+    selectMenu: function(menu) {
       this.unselect();
       this.formView = new MenuFormView({ model: menu });
       this.$(".properties_form")
@@ -44,6 +45,8 @@ define(function(require) {
         this.blockSetView.remove();
       }
       this.blockSetView = new BlockSetView({ collection: this.blocks, menu: menu });
+    },
+    placeConnector: function(e, position) {
       this.$(".menu-block-connector")
         .css({
           'visibility': 'visible',

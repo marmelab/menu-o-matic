@@ -18,6 +18,7 @@ define(function(require) {
       this.listenTo(this.model, 'change:order', this.renderOrder);
       this.listenTo(this.model, 'select', this.renderSelected);
       this.listenTo(this.model, 'unselect', this.renderUnselected);
+      this.listenTo(this.model, 'select change:url', this.updatePosition);
       this.listenTo(this.model, 'destroy', this.remove);
     },
     render: function() {
@@ -49,14 +50,20 @@ define(function(require) {
       this.$el.removeClass('selected');
     },
     select: function() {
+      this.model.select();
+    },
+    updatePosition: function() {
       var position = {
         left: this.$el.position().left,
         width: this.$el.width()
       };
-      this.model.select(position);
+      this.$el.trigger('updatePosition', position);
     },
     updateOrder: function() {
       this.model.save({ order: this.el.tabIndex });
+      if (this.$el.hasClass('is-dragging') || this.$el.hasClass('selected')) {
+        this.updatePosition();
+      }
     }
   });
 
