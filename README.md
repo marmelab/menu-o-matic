@@ -5,6 +5,10 @@ Create and manage menus using a WYSIWYG interface. Powered by [Packery](http://p
 
 ## Installation
 
+Bower dependencies are committed in the repository, so you don't need to setup anything.
+
+Just don't forget to commit them again each time you do a:
+
 ```sh
 $ bower install
 ```
