@@ -60,7 +60,7 @@ define(function(require) {
       var self = this;
       var blocks = this.collection.filterForMenu(this.menu);
       // blocks is a simple array, not a collection
-      blocks = _.sortBy(blocks, function(a, b) { return a.order > b.order; });
+      blocks = _.sortBy(blocks, 'order');
       _.each(blocks, function(block) {
         var view = new BlockView({ model: block });
         self._views.push(view);
@@ -73,7 +73,7 @@ define(function(require) {
       for (var i = 0, len = itemElems.length; i < len; i++) {
         var elem = itemElems[i];
         elem.tabIndex = i + 1;
-        $(elem).trigger('updateOrder'); // caught by menu views
+        $(elem).trigger('updateOrder'); // caught by block views
       }
     },
     createBlock: function() {
