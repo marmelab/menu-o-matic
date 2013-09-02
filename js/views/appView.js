@@ -1,11 +1,12 @@
 define(function(require) {
   "use strict";
 
-  var $        = require('jquery');
-  var Backbone = require('backbone');
-  var MenuBarView = require('views/menuBarView');
-  var MenuFormView = require('views/menuFormView');
-  var BlockSetView = require('views/blockSetView');
+  var $             = require('jquery');
+  var Backbone      = require('backbone');
+  var MenuBarView   = require('views/menuBarView');
+  var MenuFormView  = require('views/menuFormView');
+  var BlockSetView  = require('views/blockSetView');
+  var BlockFormView = require('views/blockFormView');
 
   var AppView = Backbone.View.extend({
     el: '.container',
@@ -43,13 +44,19 @@ define(function(require) {
       if (this.blockSetView) {
         this.blockSetView.remove();
       }
-      this.blockSetView = new BlockSetView({ collection: this.blocks, menu: menu }); 
+      this.blockSetView = new BlockSetView({ collection: this.blocks, menu: menu });
     },
     removeMenu: function(menu) {
       this.blocks.removeForMenu(menu);
     },
     selectBlock: function() {
       this.menus.selectedMenu.unselect();
+      var block = this.blocks.selectedBlock;
+      this.formView = new BlockFormView({ model: block });
+      this.$(".menuform")
+        .html(this.formView.render().el)
+        .show()
+        .find('textarea[name="content"]').focus();
     },
     unselect: function() {
       if (this.formView) {

@@ -86,7 +86,9 @@ define(function(require) {
     remove: function() {
       // empty instead of removing
       _.invoke(this._views, 'remove');
+      this._views = [];
       this.stopListening();
+      this.$el.unbind();
       return this;
     }
   });
