@@ -32,7 +32,12 @@ define(function(require) {
       this.formView = null;
     },
     leaveForm: function() {
-      this.menus.selectedMenu.unselect();
+      if (this.menus.selectedMenu) {
+        this.menus.selectedMenu.unselect();
+      }
+      if (this.blocks.selectedBlock) {
+        this.blocks.selectedBlock.unselect();
+      }
     },
     selectMenu: function(menu) {
       this.unselect();

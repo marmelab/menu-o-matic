@@ -24,6 +24,7 @@ define(function(require) {
       });
     },
     changeSelected: function(model) {
+      if (this.selectedBlock == model) return;
       this.unselect();
       this.selectedBlock = model;
     },
