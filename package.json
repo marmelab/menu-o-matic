@@ -11,7 +11,10 @@
     ],
     "devDependencies": {
         "wd": "0.1.0",
-        "mocha": "1.12.x"
+        "mocha": "1.12.x",
+        "config": "0.4.x",
+        "yaml": "0.2.3",
+        "async": "0.2.9"
     },
     "scripts": {
         "test": "node_modules/.bin/mocha"
