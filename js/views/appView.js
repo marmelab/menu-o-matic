@@ -11,6 +11,7 @@ define(function(require) {
   var AppView = Backbone.View.extend({
     el: '.container',
     events: {
+      'click': 'handleClick',
       'leave .properties_form': 'leaveForm',
       'updatePosition .item': 'placeConnector'
     },
@@ -30,6 +31,12 @@ define(function(require) {
       this.listenTo(this.blocks, 'unselect', this.unselect);
       // edition form
       this.formView = null;
+    },
+    handleClick: function(e) {
+      var $el = $(e.target);
+      if ($el.hasClass('menubar') || $el.hasClass('menus')) {
+        this.hideBlockSet();
+      }
     },
     leaveForm: function() {
       if (this.menus.selectedMenu) {
@@ -54,15 +61,17 @@ define(function(require) {
     placeConnector: function(e, position) {
       this.$(".menu-block-connector")
         .css({
-          'visibility': 'visible',
+          'display': 'block',
           'margin-left': position.left,
           width: (position.width + 30) + 'px'
         });
     },
     removeMenu: function(menu) {
       this.blocks.removeForMenu(menu);
-      this.$(".menu-block-connector")
-        .css('visibility', 'hidden');
+      this.hideBlockSet();
+    },
+    hideBlockSet: function() {
+      this.$('.blockset, .menu-block-connector').css('display', 'none');
     },
     selectBlock: function() {
       this.menus.selectedMenu.unselect();

@@ -17,6 +17,7 @@ define(function(require) {
       this.menu = options.menu;
       // render
       this.addAll();
+      this.$el.css('display', 'block');
       // bind collection events
       this.listenTo(this.collection, 'add', this.addOne);
       this.listenTo(this.collection, 'remove', this.removeOne);
