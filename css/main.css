@@ -101,8 +101,6 @@ body { font-family: sans-serif; }
 .block:hover {
   border-color: white;
   cursor: move;
-  transition-property: border;
-  transition-duration: 0.3s;
 }
 
 .block.selected,
