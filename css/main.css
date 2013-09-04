@@ -82,11 +82,13 @@ body { font-family: sans-serif; }
   background-image: -webkit-linear-gradient(top, #F4EACB, #DFD);
   visibility: hidden;
   border-style: solid;
-  border-width: 0 20px 10px;
-  -moz-border-image: url('/img/borders.png') 0 20 10 repeat;
-  -webkit-border-image: url('/img/borders.png') 0 20 10 repeat;
-  -o-border-image: url('/img/borders.png') 0 20 10 repeat;
-  border-image: url('/img/borders.png') 0 20 10 fill repeat;
+  border-width: 0px 20px;
+  -moz-border-image: url(/img/borders.png) 0 20 repeat;
+  -webkit-border-image: url(/img/borders.png) 0 20 repeat;
+  -o-border-image: url(/img/borders.png) 0 20 repeat;
+  border-image: url(/img/borders.png) 0 20 fill repeat;
+  transition-property: margin-left, width;
+  transition-duration: 0.5s;
 }
 
 .add_button {
@@ -99,6 +101,8 @@ body { font-family: sans-serif; }
 .block:hover {
   border-color: white;
   cursor: move;
+  transition-property: border;
+  transition-duration: 0.3s;
 }
 
 .block.selected,
