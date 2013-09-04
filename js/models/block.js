@@ -5,7 +5,7 @@ define(function(require) {
 
   var Block = Backbone.Model.extend({
     defaults: {
-      content: 'Nouveau block',
+      content: 'Nouveau bloc',
       menuId: 0,
       order: 0
     },
