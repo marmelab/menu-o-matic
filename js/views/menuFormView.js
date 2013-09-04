@@ -9,9 +9,11 @@ define(function(require) {
     template: _.template(menuFormTemplate),
     events: {
       'change input[name="title"]': 'updateTitle',
-      'keyup input[name="title"]': 'updateTitle',
+      'keyup  input[name="title"]': 'updateTitle',
       'change input[name="url"]': 'updateUrl',
-      'keyup input[name="url"]': 'updateUrl',
+      'keyup  input[name="url"]': 'updateUrl',
+      'change input[name="className"]': 'updateClassName',
+      'keyup  input[name="className"]': 'updateClassName',
       'click #delete': 'removeMenu',
       'focus input': 'enterInput',
       'blur input': 'leaveInput'
@@ -28,6 +30,9 @@ define(function(require) {
     },
     updateUrl: function(e) {
       this.model.set('url', this.$('input[name="url"]').val());
+    },
+    updateClassName: function(e) {
+      this.model.set('className', this.$('input[name="className"]').val());
     },
     removeMenu: function() {
       if (!confirm('Vous êtes sur le point de supprimer le menu "' + this.model.get('title') + '".')) return;

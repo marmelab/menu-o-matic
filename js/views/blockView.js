@@ -16,22 +16,30 @@ define(function(require) {
     initialize: function() {
       this.listenTo(this.model, 'change:content', this.renderContent);
       this.listenTo(this.model, 'change:order', this.renderOrder);
+      this.listenTo(this.model, 'change:className', this.renderClassName);
       this.listenTo(this.model, 'select', this.renderSelected);
       this.listenTo(this.model, 'unselect', this.renderUnselected);
       this.listenTo(this.model, 'destroy', this.remove);
     },
     render: function() {
       this
-        .renderContent()
-        .renderOrder();
+        .renderContent(this.model, this.model.get('content'))
+        .renderOrder(this.model, this.model.get('order'))
+        .renderClassName(this.model, this.model.get('className'));
       return this;
     },
-    renderContent: function() {
-      this.$el.html(marked(this.model.get('content')));
+    renderContent: function(model, content) {
+      this.$el.html(marked(content));
       return this;
     },
-    renderOrder: function() {
-      this.$el.attr('tabindex', this.model.get('order'));
+    renderOrder: function(model, order) {
+      this.$el.attr('tabindex', order);
+      return this;
+    },
+    renderClassName: function(model, className) {
+      this.$el
+        .removeClass(model.previous('className'))
+        .addClass(className);
       return this;
     },
     renderSelected: function() {

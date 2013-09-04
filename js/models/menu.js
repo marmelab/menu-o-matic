@@ -7,6 +7,7 @@ define(function(require) {
     defaults: {
       title: 'Nouveau menu',
       url: '',
+      className: '',
       order: 0
     },
     select: function(position) {

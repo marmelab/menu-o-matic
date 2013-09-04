@@ -6,6 +6,7 @@ define(function(require) {
   var Block = Backbone.Model.extend({
     defaults: {
       content: 'Nouveau bloc',
+      className: '',
       menuId: 0,
       order: 0
     },

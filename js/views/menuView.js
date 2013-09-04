@@ -16,6 +16,7 @@ define(function(require) {
       this.listenTo(this.model, 'change:url', this.renderUrl);
       this.listenTo(this.model, 'change:title', this.renderTitle);
       this.listenTo(this.model, 'change:order', this.renderOrder);
+      this.listenTo(this.model, 'change:className', this.renderClassName);
       this.listenTo(this.model, 'select', this.renderSelected);
       this.listenTo(this.model, 'unselect', this.renderUnselected);
       this.listenTo(this.model, 'select change:url', this.updatePosition);
@@ -23,24 +24,31 @@ define(function(require) {
     },
     render: function() {
       this
-        .renderTitle()
-        .renderUrl()
-        .renderOrder();
+        .renderTitle(this.model, this.model.get('title'))
+        .renderUrl(this.model, this.model.get('url'))
+        .renderOrder(this.model, this.model.get('order'))
+        .renderClassName(this.model, this.model.get('className'));
       return this;
     },
-    renderTitle: function() {
-      this.$el.text(this.model.get('title'));
+    renderTitle: function(model, title) {
+      this.$el.text(title);
       return this;
     },
-    renderUrl: function() {
+    renderUrl: function(model, url) {
       this.$el.attr({
-        'data-url': this.model.get('url'),
-        'title': this.model.get('url')
+        'data-url': url,
+        'title': url
       });
       return this;
     },
-    renderOrder: function() {
-      this.$el.attr('tabindex', this.model.get('order'));
+    renderOrder: function(model, order) {
+      this.$el.attr('tabindex', order);
+      return this;
+    },
+    renderClassName: function(model, className) {
+      this.$el
+        .removeClass(model.previous('className'))
+        .addClass(className);
       return this;
     },
     renderSelected: function() {
