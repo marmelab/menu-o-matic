@@ -46,11 +46,17 @@ Finally, run tests using `mocha`, or the built-in `test` task:
 $ npm test
 ```
 
-### Running tests with Chrome**
+### Running tests with Chrome
 
 Firefox is included by default in the `selenium-server-standalone-2.21.0.jar`, if you want to use Chrome, download the chromedriver at https://code.google.com/p/chromedriver/downloads/list.
 
 Then, start Selenium with Chrome:
 ```sh
-java -jar selenium-server-standalone.jar -Dwebdriver.chrome.driver=/[path-to]/chromedriver
+$ java -jar selenium-server-standalone.jar -Dwebdriver.chrome.driver=/[path-to]/chromedriver
+```
+
+And start tests with the `TEST_BROWSER` environment variable set to `chrome`:
+
+```sh
+$ TEST_BROWSER=chrome npm test
 ```

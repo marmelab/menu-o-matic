@@ -7,7 +7,8 @@ var customCommands = require('../customCommands');
 var client = {};
 var options = {
   desiredCapabilities:  { browserName: process.env.TEST_BROWSER || 'firefox' },
-  customCommands: __dirname + '/../utils'
+  customCommands: __dirname + '/../utils',
+  // logLevel: 'silent'
 };
 
 process.env.NODE_ENV = 'test';
@@ -35,28 +36,91 @@ describe('Simple menu creation', function() {
     customCommands(client);
   });
 
-  it('Order test',function(done) {
+  it('should allow addition of new menus',function(done) {
     client
       .url('http://localhost:4001/')
       .click('.menubar .add_button button')
-      .pause(200)
+      .pause(300)
       .getText('.menus .item', function(err, text) {
+        assert.strictEqual(err, null);
         assert.equal("Nouveau menu", text);
       })
+      .pause(500)
+      .click('#delete')
+      .pause(400)
+      .alertAccept()
+      .call(done);
+  });
+
+  it('should allow selection of menus', function(done) {
+    client
+      .url('http://localhost:4001/')
+      .click('.menubar .add_button button')
+      .pause(500)
+      .click('h1') //deselect
+      .click('.menus .item:nth-child(1)')
+      .getValue(".properties_form input[name='title']", function(err, result) {
+        assert.strictEqual(err, null);
+        assert.equal(result, 'Nouveau menu');
+      })
+      .pause(500)
+      .click('#delete')
+      .pause(400)
+      .alertAccept()
+      .call(done);
+  });
+
+  it('should allow renaming of menus', function(done) {
+    client
+      .url('http://localhost:4001/')
+      .click('.menubar .add_button button')
       .click('.menubar .add_button button')
       .pause(500)
       .setValue(".properties_form input[name='title']", 'My second menu')
-      .dragAndDropAt('.menus .item:nth-child(1)', '.menus .item:nth-child(2)',0 ,0)
-      .pause(2000)
-      .getElementsText('.menus .item', function(err, rslt){
-        assert.equal("My second menu", rslt[0]);
-        assert.equal("Nouveau menu", rslt[1]);
+      .pause(500)
+      .getElementsText('.menus .item', function(err, result){
+        assert.strictEqual(err, null);
+        assert.equal("Nouveau menu", result[0]);
+        assert.equal("My second menu", result[1]);
       })
-
-      .call(done)
-    ;
+      .pause(500)
+      .click('.properties_form #delete')
+      .pause(400)
+      .alertAccept()
+      .click('.menus .item:nth-child(1)')
+      .pause(200)
+      .click('.properties_form #delete')
+      .pause(400)
+      .alertAccept()
+      .call(done);
   });
 
+  it('should allow drag and drop of menus', function(done) {
+    client
+      .url('http://localhost:4001/')
+      .click('.menubar .add_button button')
+      .click('.menubar .add_button button')
+      .pause(500)
+      .setValue(".properties_form input[name='title']", 'My second menu')
+      .pause(500)
+      .dragAndDropAt('.menus .item:nth-child(1)', '.menus .item:nth-child(2)',0 ,0)
+      .pause(2000)
+      .getElementsText('.menus .item', function(err, result){
+        assert.strictEqual(err, null);
+        assert.equal("My second menu", result[0]);
+        assert.equal("Nouveau menu", result[1]);
+      })
+      .pause(500)
+      .click('.properties_form #delete')
+      .pause(400)
+      .alertAccept()
+      .click('.menus .item:nth-child(1)')
+      .pause(200)
+      .click('.properties_form #delete')
+      .pause(400)
+      .alertAccept()
+      .call(done);
+  });
 
   after(function(done) {
     client.end(done);
