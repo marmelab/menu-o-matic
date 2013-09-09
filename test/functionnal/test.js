@@ -7,8 +7,7 @@ var customCommands = require('../customCommands');
 var client = {};
 var options = {
   desiredCapabilities:  { browserName: process.env.TEST_BROWSER || 'firefox' },
-  customCommands: __dirname + '/../utils',
-  // logLevel: 'silent'
+  logLevel: 'silent'
 };
 
 process.env.NODE_ENV = 'test';
@@ -47,7 +46,7 @@ describe('Simple menu creation', function() {
       })
       .pause(500)
       .click('#delete')
-      .pause(400)
+      .pause(200)
       .alertAccept()
       .call(done);
   });
@@ -65,7 +64,7 @@ describe('Simple menu creation', function() {
       })
       .pause(500)
       .click('#delete')
-      .pause(400)
+      .pause(200)
       .alertAccept()
       .call(done);
   });
@@ -83,14 +82,13 @@ describe('Simple menu creation', function() {
         assert.equal("Nouveau menu", result[0]);
         assert.equal("My second menu", result[1]);
       })
-      .pause(500)
       .click('.properties_form #delete')
-      .pause(400)
+      .pause(200)
       .alertAccept()
       .click('.menus .item:nth-child(1)')
       .pause(200)
       .click('.properties_form #delete')
-      .pause(400)
+      .pause(200)
       .alertAccept()
       .call(done);
   });
@@ -101,23 +99,28 @@ describe('Simple menu creation', function() {
       .click('.menubar .add_button button')
       .click('.menubar .add_button button')
       .pause(500)
-      .setValue(".properties_form input[name='title']", 'My second menu')
-      .pause(500)
-      .dragAndDropAt('.menus .item:nth-child(1)', '.menus .item:nth-child(2)',0 ,0)
-      .pause(2000)
-      .getElementsText('.menus .item', function(err, result){
-        assert.strictEqual(err, null);
-        assert.equal("My second menu", result[0]);
-        assert.equal("Nouveau menu", result[1]);
+      .getAttribute('.menus .item:nth-child(1)', 'tabindex', function(err, tabindex) {
+        assert.equal(tabindex, 1);
       })
-      .pause(500)
+      .getAttribute('.menus .item:nth-child(2)', 'tabindex', function(err, tabindex) {
+        assert.equal(tabindex, 2);
+      })
+      .setValue(".properties_form input[name='title']", 'My second menu')
+      .dragAndDropAt('.menus .item:nth-child(1)', '.menus .item:nth-child(2)', 0, 0)
+      .pause(1000)
+      .getAttribute('.menus .item:nth-child(1)', 'tabindex', function(err, tabindex) {
+        assert.equal(tabindex, 2);
+      })
+      .getAttribute('.menus .item:nth-child(2)', 'tabindex', function(err, tabindex) {
+        assert.equal(tabindex, 1);
+      })
       .click('.properties_form #delete')
-      .pause(400)
+      .pause(200)
       .alertAccept()
       .click('.menus .item:nth-child(1)')
       .pause(200)
       .click('.properties_form #delete')
-      .pause(400)
+      .pause(200)
       .alertAccept()
       .call(done);
   });
