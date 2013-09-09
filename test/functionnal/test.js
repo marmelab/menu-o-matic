@@ -125,6 +125,46 @@ describe('Simple menu creation', function() {
       .call(done);
   });
 
+  it('should persist menus between sessions', function(done) {
+    client
+      .url('http://localhost:4001/')
+      .click('.menubar .add_button button')
+      .pause(500)
+      .setValue(".properties_form input[name='title']", 'First')
+      .pause(100)
+      .click('.menubar .add_button button')
+      .pause(500)
+      .setValue(".properties_form input[name='title']", 'Second')
+      .pause(100)
+      .dragAndDropAt('.menus .item:nth-child(1)', '.menus .item:nth-child(2)', 0, 0)
+      .pause(1000)
+      .refresh()
+      .pause(500)
+      .getText('.menus .item:nth-child(1)', function(err, text) {
+        assert.equal(text, 'Second');
+      })
+      .getAttribute('.menus .item:nth-child(1)', 'tabindex', function(err, tabindex) {
+        assert.equal(tabindex, 1);
+      })
+      .getText('.menus .item:nth-child(2)', function(err, text) {
+        assert.equal(text, 'First');
+      })
+      .getAttribute('.menus .item:nth-child(2)', 'tabindex', function(err, tabindex) {
+        assert.equal(tabindex, 2);
+      })
+      .click('.menus .item:nth-child(1)')
+      .pause(200)
+      .click('.properties_form #delete')
+      .pause(200)
+      .alertAccept()
+      .click('.menus .item:nth-child(1)')
+      .pause(200)
+      .click('.properties_form #delete')
+      .pause(200)
+      .alertAccept()
+      .call(done);
+  });
+
   after(function(done) {
     client.end(done);
     server.close();

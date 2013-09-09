@@ -7,7 +7,6 @@ function init(client) {
     var filePath = __dirname + '/' + file;
     if (filePath == __filename) return;
     var commandName = file.split('.')[0];
-    console.log(commandName);
     client.addCommand(commandName, require(filePath).command);
   });
 }
