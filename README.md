@@ -48,7 +48,7 @@ $ npm test
 
 ### Running tests with Chrome
 
-Firefox is included by default in the `selenium-server-standalone-2.21.0.jar`, if you want to use Chrome, download the chromedriver at https://code.google.com/p/chromedriver/downloads/list.
+The Firefox driver is included by default in the `selenium-server-standalone-2.21.0.jar`, if you want to use Chrome, download the chromedriver at https://code.google.com/p/chromedriver/downloads/list.
 
 Then, start Selenium with Chrome:
 ```sh
