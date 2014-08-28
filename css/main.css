@@ -84,10 +84,10 @@ body { font-family: sans-serif; }
   display: none;
   border-style: solid;
   border-width: 0px 20px;
-  -moz-border-image: url(/img/borders.png) 0 20 repeat;
-  -webkit-border-image: url(/img/borders.png) 0 20 repeat;
-  -o-border-image: url(/img/borders.png) 0 20 repeat;
-  border-image: url(/img/borders.png) 0 20 fill repeat;
+  -moz-border-image: url(../img/borders.png) 0 20 repeat;
+  -webkit-border-image: url(../img/borders.png) 0 20 repeat;
+  -o-border-image: url(../img/borders.png) 0 20 repeat;
+  border-image: url(../img/borders.png) 0 20 fill repeat;
   transition-property: margin-left, width;
   transition-duration: 0.5s;
 }
@@ -124,5 +124,5 @@ body { font-family: sans-serif; }
 }
 
 .stripe {
-  background-image: url(/img/stripe.png);
+  background-image: url(../img/stripe.png);
 }
